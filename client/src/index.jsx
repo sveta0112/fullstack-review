@@ -12,10 +12,31 @@ class App extends React.Component {
     }
 
   }
-
+  
+  getRepos(){
+    //console.log(`${term} was found`, JSON.stringify({term}));
+    $.ajax({
+      method:'GET',
+      url:'/repos',
+      //context: JSON.stringify(document.body),
+      //data: {term}//--> object distraction()or({term:term}) //will go in as a data object
+    })
+    .done(function(result) {
+      console.log( 'Data get: ', result);
+    });
+  }
   search (term) {
-    console.log(`${term} was searched`);
+    console.log(`${term} was searched`, JSON.stringify({term}));
     // TODO
+    $.ajax({
+      method:'POST',
+      url:'/repos',
+      //context: JSON.stringify(document.body),
+      data: {term}//--> object distraction()or({term:term}) //will go in as a data object
+    })
+    .done(function(result) {
+      console.log( 'Data Saved: ', result);
+    });
   }
 
   render () {
@@ -23,6 +44,7 @@ class App extends React.Component {
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <button onClick={this.getRepos.bind(this)}>Get repos</button>
     </div>)
   }
 }
