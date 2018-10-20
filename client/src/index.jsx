@@ -17,12 +17,13 @@ class App extends React.Component {
     //console.log(`${term} was found`, JSON.stringify({term}));
     $.ajax({
       method:'GET',
-      url:'/repos',
+      url:'/repos'
       //context: JSON.stringify(document.body),
       //data: {term}//--> object distraction()or({term:term}) //will go in as a data object
     })
-    .done(function(result) {
-      console.log( 'Data get: ', result);
+    .done((result) => {
+      this.setState({repos: result});
+      //console.log( 'Data get: ', result);
     });
   }
   search (term) {
@@ -35,6 +36,7 @@ class App extends React.Component {
       data: {term}//--> object distraction()or({term:term}) //will go in as a data object
     })
     .done(function(result) {
+
       console.log( 'Data Saved: ', result);
     });
   }

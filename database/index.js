@@ -9,7 +9,7 @@ let repoSchema = mongoose.Schema({
   // owner: String,
   // description: String,
   // avatar_url: String,
-  clone_url: String///repo addresing 
+  clone_url: {type:String, unique: true} ///repo addresing 
 
 });
 
