@@ -10,9 +10,11 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
-
+  this.getRepos = this.getRepos.bind(this);
   }
-  
+  componentDidMount(){
+     this.getRepos();
+  }
   getRepos(){
     //console.log(`${term} was found`, JSON.stringify({term}));
     $.ajax({
@@ -44,9 +46,9 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} onSuccess={this.getRepos}/>
       <Search onSearch={this.search.bind(this)}/>
-      <button onClick={this.getRepos.bind(this)}>Get repos</button>
+      
     </div>)
   }
 }
