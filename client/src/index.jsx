@@ -16,17 +16,14 @@ class App extends React.Component {
      this.getRepos();
   }
   getRepos(){
-    //console.log(`${term} was found`, JSON.stringify({term}));
     $.ajax({
       method:'GET',
-      url:'/repos'
-      //context: JSON.stringify(document.body),
-      //data: {term}//--> object distraction()or({term:term}) //will go in as a data object
+      url:'/repos',
+      success: (result) => {
+        this.setState({repos: result});
+      }
     })
-    .done((result) => {
-      this.setState({repos: result});
-      //console.log( 'Data get: ', result);
-    });
+    
   }
   search (term) {
     console.log(`${term} was searched`, JSON.stringify({term}));
@@ -34,22 +31,21 @@ class App extends React.Component {
     $.ajax({
       method:'POST',
       url:'/repos',
-      //context: JSON.stringify(document.body),
-      data: {term}//--> object distraction()or({term:term}) //will go in as a data object
+      data: {term},
+      success: (result) => {
+        console.log( 'Data Saved: ', result);
+        this.getRepos();
+      }
     })
-    .done(function(result) {
-
-      console.log( 'Data Saved: ', result);
-    });
   }
 
   render () {
-    return (<div>
-      <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos} onSuccess={this.getRepos}/>
-      <Search onSearch={this.search.bind(this)}/>
-      
-    </div>)
+    return (
+      <div>
+        <h1>Github Fetcher</h1>
+        <RepoList repos={this.state.repos} onSuccess={this.getRepos}/>
+        <Search onSearch={this.search.bind(this)}/>
+      </div>)
   }
 }
 

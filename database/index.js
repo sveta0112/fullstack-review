@@ -4,26 +4,23 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  // id: Number,
-  // name: String,
-  // owner: String,
-  // description: String,
-  // avatar_url: String,
-  clone_url: {type:String, unique: true} ///repo addresing 
+  name: String,
+  html_url: {type:String, unique: true},
+  size: Number ///repo addresing 
 
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (repo) => {
+let save = (name,repo, size) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
 
-  var k  = new Repo({clone_url: repo});
-  k.save((err, k) => {
+  var info  = new Repo({name: name, html_url: repo, size: size});
+  info.save((err, info) => {
     if(err){
-      throw err;
+      console.log("Can not add duplicates to database!");
     }
   });
 }
@@ -35,7 +32,7 @@ let find = (cb) => {
     }else{
       cb(null, results);
     }
-  });
+  }).limit(25).sort('size');
 }
 
 module.exports.save = save;

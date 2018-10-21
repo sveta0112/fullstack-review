@@ -20,9 +20,9 @@ let getReposByUsername = (user, callback) => {
     if(err){
       throw err;  
     }else{
-      //console.log(JSON.parse(gitBody.body.full_name));
+      //console.log(JSON.parse(gitBody.body.name));
       for(var i = 0; i < JSON.parse(gitBody.body).length; i++){
-        db.save(JSON.parse(gitBody.body)[i].clone_url);
+        db.save(JSON.parse(gitBody.body)[i].name, JSON.parse(gitBody.body)[i].html_url, JSON.parse(gitBody.body)[i].size);
       }
       // db.save(JSON.parse(gitBody.body));
       callback(null, JSON.parse(gitBody.body));

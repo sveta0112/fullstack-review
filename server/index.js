@@ -9,32 +9,30 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.post('/repos',(req, res) => {
-	console.log(req.body);
-	helpers.getReposByUsername(req.body, (err, result) =>{
-		if(err){
-		  throw err;
-		}else{
-		  //console.log('hi',result[0].clone_url);	
-		  res.send(result);
-		}
-	});
+  console.log(req.body);
+  helpers.getReposByUsername(req.body, (err, result) =>{
+    if(err){
+      throw err;
+    }else{
+      res.send(result);
+    }
+  });
       
   // TODO - your code here!
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
 });
-//bug
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
   db.find((err, result) => {
     if(err){
-    	throw err;
+      throw err;
     }else{
-    	var final = result.map(val =>  val.clone_url);
-    	console.log(final);
-    	res.send(final);
+      var final = result.map(val =>  val);
+      console.log(final);
+      res.send(final);
     }
   });
 });
